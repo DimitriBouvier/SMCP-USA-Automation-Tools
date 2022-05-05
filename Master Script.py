@@ -76,11 +76,11 @@ def wunderkind(task):
     sandro_files_went_over = []
     
     
-    for maje_file in os.listdir('//storenext.lan/app/CREATION_CLIENTS/MAJE/IN'):
+    for maje_file in os.listdir('///app/CREATION_CLIENTS/MAJE/IN'):
         if maje_file.startswith('maje_subscribes'):
             maje_files_went_over.append(maje_file)
             # print(maje_file)
-            extract = list(pd.read_csv(r'//storenext.lan/app/CREATION_CLIENTS/MAJE/IN/{0}'.format(maje_file)).iloc[:,0])
+            extract = list(pd.read_csv(r'///app/CREATION_CLIENTS/MAJE/IN/{0}'.format(maje_file)).iloc[:,0])
             for email_address in extract:
                 maje_daily_df = maje_daily_df.append({'Codemagasin':'4249',
                                                       'e-mail':email_address,
@@ -89,11 +89,11 @@ def wunderkind(task):
                                                       'canalEntree':'Wunderkind'},ignore_index=True)
     
             
-    for sandro_file in os.listdir('//storenext.lan/app/CREATION_CLIENTS/SANDRO/IN'):
+    for sandro_file in os.listdir('///app/CREATION_CLIENTS/SANDRO/IN'):
         if sandro_file.startswith('sandroparis_subscribes'):
             sandro_files_went_over.append(sandro_file)
             # print(sandro_file)
-            extract = list(pd.read_csv(r'//storenext.lan/app/CREATION_CLIENTS/SANDRO/IN/{0}'.format(sandro_file)).iloc[:,0])
+            extract = list(pd.read_csv(r'///app/CREATION_CLIENTS/SANDRO/IN/{0}'.format(sandro_file)).iloc[:,0])
             for email_address in extract:
                 if 'Female' in email_address:
                     code_civ = 2
@@ -109,23 +109,23 @@ def wunderkind(task):
                                                       'canalEntree':'Wunderkind'},ignore_index=True)
     
     if len(maje_daily_df)>0:
-        writer = ExcelWriter(r'\\STORENEXT.lan\app\CREATION_CLIENTS\MAJE\IN\STORENEXT_CREATION_CLIENTS_MAJE_IN_{0}.xlsx'.format(datetime.today().strftime('%m%d%y')))
+        writer = ExcelWriter(r'\\\app\CREATION_CLIENTS\MAJE\IN\STORENEXT_CREATION_CLIENTS_MAJE_IN_{0}.xlsx'.format(datetime.today().strftime('%m%d%y')))
         maje_daily_df.to_excel(writer,'{0}'.format(datetime.today().strftime('%m%d%y')),index = False)
         writer.save()
         writer.close()
         
     if len(maje_daily_df)>0:
-        writer = ExcelWriter(r'\\STORENEXT.lan\app\CREATION_CLIENTS\SANDRO\IN\STORENEXT_CREATION_CLIENTS_SANDRO_IN_{0}.xlsx'.format(datetime.today().strftime('%m%d%y')))
+        writer = ExcelWriter(r'\\\app\CREATION_CLIENTS\SANDRO\IN\STORENEXT_CREATION_CLIENTS_SANDRO_IN_{0}.xlsx'.format(datetime.today().strftime('%m%d%y')))
         sandro_daily_df.to_excel(writer,'{0}'.format(datetime.today().strftime('%m%d%y')),index = False)
         writer.save()
         writer.close()
     
     if len(maje_files_went_over) >0:
         for maje_file in maje_files_went_over:
-            shutil.move("//storenext.lan/app/CREATION_CLIENTS/MAJE/IN/{0}".format(maje_file), "//storenext.lan/app/CREATION_CLIENTS/MAJE/ARCHIVE/{0}".format(maje_file))
+            shutil.move("///app/CREATION_CLIENTS/MAJE/IN/{0}".format(maje_file), "///app/CREATION_CLIENTS/MAJE/ARCHIVE/{0}".format(maje_file))
     if len(sandro_files_went_over)>0:
         for sandro_file in sandro_files_went_over:
-            shutil.move("//storenext.lan/app/CREATION_CLIENTS/SANDRO/IN/{0}".format(sandro_file), "//storenext.lan/app/CREATION_CLIENTS/SANDRO/ARCHIVE/{0}".format(sandro_file))
+            shutil.move("///app/CREATION_CLIENTS/SANDRO/IN/{0}".format(sandro_file), "///app/CREATION_CLIENTS/SANDRO/ARCHIVE/{0}".format(sandro_file))
     
     if len(maje_files_went_over) >0 or len(sandro_files_went_over)>0:
         outlook = win32.Dispatch('outlook.application',pythoncom.CoInitialize())
@@ -277,12 +277,12 @@ def blmAudStlComparision(task):
             return 'GC/UnknownSKU'
     df_maje = pd.DataFrame(columns=['date','totalAmount','filePath'])
     #extracting Maje files
-    for folder in os.listdir(r'\\storenext.lan\app\EDI_USA\BLM\maje\SAV-Arrivee'):
+    for folder in os.listdir(r'\\\app\EDI_USA\BLM\maje\SAV-Arrivee'):
         if folder in date_range:
-            for file in os.listdir(r'\\storenext.lan\app\EDI_USA\BLM\maje\SAV-Arrivee\{0}'.format(folder)):
+            for file in os.listdir(r'\\\app\EDI_USA\BLM\maje\SAV-Arrivee\{0}'.format(folder)):
                 if file.startswith('AUDITED'):
                     # print(file)        
-                    my_file = pd.read_csv(r'\\storenext.lan\app\EDI_USA\BLM\maje\SAV-Arrivee\{0}\{1}'.format(folder,file))
+                    my_file = pd.read_csv(r'\\\app\EDI_USA\BLM\maje\SAV-Arrivee\{0}\{1}'.format(folder,file))
                     my_file['sum'] = my_file['MERCH_AMT']*my_file['QTY']
                     my_file = my_file[my_file['UPC'] > 3661600000000]
                     my_file = my_file[my_file['UPC'] < 3661610000000]
@@ -292,16 +292,16 @@ def blmAudStlComparision(task):
                     my_file = my_file[my_file['outcome'] == 'MAJE']
                     df_maje = df_maje.append({'date':(datetime.strptime(folder,'%d%m%Y') - timedelta(days=4)),
                                               'totalAmount':sum(my_file['sum'].astype(float)),#MERCH_AMT
-                                              'filePath':r'\\storenext.lan\app\EDI_USA\BLM\maje\SAV-Arrivee\{0}\{1}'.format(folder,file)},
+                                              'filePath':r'\\\app\EDI_USA\BLM\maje\SAV-Arrivee\{0}\{1}'.format(folder,file)},
                                              ignore_index=True)
     df_sandro = pd.DataFrame(columns=['date','totalAmount','filePath'])
     #extracting Sandro files
-    for folder in os.listdir(r'\\storenext.lan\app\EDI_USA\BLM\sandro\SAV-Arrivee'):
+    for folder in os.listdir(r'\\\app\EDI_USA\BLM\sandro\SAV-Arrivee'):
         if folder in date_range:
-            for file in os.listdir(r'\\storenext.lan\app\EDI_USA\BLM\sandro\SAV-Arrivee\{0}'.format(folder)):
+            for file in os.listdir(r'\\\app\EDI_USA\BLM\sandro\SAV-Arrivee\{0}'.format(folder)):
                 if file.startswith('AUDITED'):
                     # print(file)
-                    my_file = pd.read_csv(r'\\storenext.lan\app\EDI_USA\BLM\sandro\SAV-Arrivee\{0}\{1}'.format(folder,file))
+                    my_file = pd.read_csv(r'\\\app\EDI_USA\BLM\sandro\SAV-Arrivee\{0}\{1}'.format(folder,file))
                     my_file['sum'] = my_file['MERCH_AMT']*my_file['QTY']
                     my_file = my_file[my_file['UPC'] > 3607170000000]
                     my_file = my_file[my_file['UPC'] < 3607180000000]
@@ -311,7 +311,7 @@ def blmAudStlComparision(task):
                     my_file = my_file[my_file['outcome'] == 'SANDRO']
                     df_sandro = df_sandro.append({'date':(datetime.strptime(folder,'%d%m%Y') - timedelta(days=4)),
                                               'totalAmount':sum(my_file['sum'].astype(float)),#MERCH_AMT
-                                              'filePath':r'\\storenext.lan\app\EDI_USA\BLM\sandro\SAV-Arrivee\{0}\{1}'.format(folder,file)},
+                                              'filePath':r'\\\app\EDI_USA\BLM\sandro\SAV-Arrivee\{0}\{1}'.format(folder,file)},
                                              ignore_index=True)
     
     maje = df_maje.merge(maje_results, how='left', on ='date').rename(columns={'SUM(CA)':'totalAmountStoreland'}).dropna()
@@ -382,65 +382,65 @@ def blmAudDaiComparison(task):
     
     df_audited_maje, df_audited_sandro, df_daily_sandro, df_daily_maje = pd.DataFrame(columns=['date','totalAmount','filePath','file']),pd.DataFrame(columns=['date','totalAmount','filePath','file']),pd.DataFrame(columns=['date','totalAmount','filePath','file']),pd.DataFrame(columns=['date','totalAmount','filePath','file'])
     
-    for folder in os.listdir(r'\\storenext.lan\app\EDI_USA\BLM\maje\SAV-Arrivee'):
+    for folder in os.listdir(r'\\\app\EDI_USA\BLM\maje\SAV-Arrivee'):
         if folder in date_range_daily:
-            for file in os.listdir(r'\\storenext.lan\app\EDI_USA\BLM\maje\SAV-Arrivee\{0}'.format(folder)):
+            for file in os.listdir(r'\\\app\EDI_USA\BLM\maje\SAV-Arrivee\{0}'.format(folder)):
                 if file.startswith('SALES') and file not in df_daily_maje['file']:
-                    my_file = pd.read_csv(r'\\storenext.lan\app\EDI_USA\BLM\maje\SAV-Arrivee\{0}\{1}'.format(folder,file))
+                    my_file = pd.read_csv(r'\\\app\EDI_USA\BLM\maje\SAV-Arrivee\{0}\{1}'.format(folder,file))
                     my_file['sum'] = my_file['MERCH_AMT']*my_file['QTY']
                     my_file = my_file[my_file['UPC'] > 3661600000000]
                     my_file = my_file[my_file['UPC'] < 3661610000000]
-                    # print(r'\\storenext.lan\app\EDI_USA\BLM\maje\SAV-Arrivee\{0}\{1}'.format(folder,file))
+                    # print(r'\\\app\EDI_USA\BLM\maje\SAV-Arrivee\{0}\{1}'.format(folder,file))
                     df_daily_maje = df_daily_maje.append({'date':(datetime.strptime(folder,'%d%m%Y')-timedelta(days=1)),
                                                           'totalAmount':sum(my_file['sum'].astype('int')),#MERCH_AMT
-                                                          'filePath':r'\\storenext.lan\app\EDI_USA\BLM\maje\SAV-Arrivee\{0}\{1}'.format(folder,file),
+                                                          'filePath':r'\\\app\EDI_USA\BLM\maje\SAV-Arrivee\{0}\{1}'.format(folder,file),
                                                           'file':file},
                                                          ignore_index=True)
                     # sys.exit('')
         if folder in date_range_audited:
-            for file in os.listdir(r'\\storenext.lan\app\EDI_USA\BLM\maje\SAV-Arrivee\{0}'.format(folder)):
-                # for file in os.listdir(r'\\storenext.lan\app\EDI_USA\BLM\maje\SAV-Arrivee\{0}'.format(folder)):
+            for file in os.listdir(r'\\\app\EDI_USA\BLM\maje\SAV-Arrivee\{0}'.format(folder)):
+                # for file in os.listdir(r'\\\app\EDI_USA\BLM\maje\SAV-Arrivee\{0}'.format(folder)):
                     if file.startswith('AUDITED') and file not in df_audited_maje['file']:
-                        my_file = pd.read_csv(r'\\storenext.lan\app\EDI_USA\BLM\maje\SAV-Arrivee\{0}\{1}'.format(folder,file))
+                        my_file = pd.read_csv(r'\\\app\EDI_USA\BLM\maje\SAV-Arrivee\{0}\{1}'.format(folder,file))
                         my_file['sum'] = my_file['MERCH_AMT']*my_file['QTY']
                         my_file = my_file[my_file['UPC'] > 3661600000000]
                         my_file = my_file[my_file['UPC'] < 3661610000000]
-                        # print(r'\\storenext.lan\app\EDI_USA\BLM\maje\SAV-Arrivee\{0}\{1}'.format(folder,file))
+                        # print(r'\\\app\EDI_USA\BLM\maje\SAV-Arrivee\{0}\{1}'.format(folder,file))
                         df_audited_maje = df_audited_maje.append({'date':(datetime.strptime(folder,'%d%m%Y')-timedelta(days=4)),
                                                           'totalAmount':sum(my_file['sum'].astype('int')),#MERCH_AMT
-                                                          'filePath':r'\\storenext.lan\app\EDI_USA\BLM\maje\SAV-Arrivee\{0}\{1}'.format(folder,file),
+                                                          'filePath':r'\\\app\EDI_USA\BLM\maje\SAV-Arrivee\{0}\{1}'.format(folder,file),
                                                           'file':file},
                                                          ignore_index=True)
     
     
     
-    for folder in os.listdir(r'\\storenext.lan\app\EDI_USA\BLM\sandro\SAV-Arrivee'):
+    for folder in os.listdir(r'\\\app\EDI_USA\BLM\sandro\SAV-Arrivee'):
         if folder in date_range_daily:
-            for file in os.listdir(r'\\storenext.lan\app\EDI_USA\BLM\sandro\SAV-Arrivee\{0}'.format(folder)):
+            for file in os.listdir(r'\\\app\EDI_USA\BLM\sandro\SAV-Arrivee\{0}'.format(folder)):
                 if file.startswith('SALES') and file not in df_daily_sandro['file']:
-                    my_file = pd.read_csv(r'\\storenext.lan\app\EDI_USA\BLM\sandro\SAV-Arrivee\{0}\{1}'.format(folder,file))
+                    my_file = pd.read_csv(r'\\\app\EDI_USA\BLM\sandro\SAV-Arrivee\{0}\{1}'.format(folder,file))
                     my_file['sum'] = my_file['MERCH_AMT']*my_file['QTY']
                     my_file = my_file[my_file['UPC'] > 3607170000000]
                     my_file = my_file[my_file['UPC'] < 3607180000000]
-                    # print(r'\\storenext.lan\app\EDI_USA\BLM\sandro\SAV-Arrivee\{0}\{1}'.format(folder,file))
+                    # print(r'\\\app\EDI_USA\BLM\sandro\SAV-Arrivee\{0}\{1}'.format(folder,file))
                     df_daily_sandro = df_daily_sandro.append({'date':(datetime.strptime(folder,'%d%m%Y')-timedelta(days=1)),
                                                           'totalAmount':sum(my_file['sum'].astype('int')),#MERCH_AMT
-                                                          'filePath':r'\\storenext.lan\app\EDI_USA\BLM\sandro\SAV-Arrivee\{0}\{1}'.format(folder,file),
+                                                          'filePath':r'\\\app\EDI_USA\BLM\sandro\SAV-Arrivee\{0}\{1}'.format(folder,file),
                                                           'file':file},
                                                          ignore_index=True)
                     # sys.exit('')
         if folder in date_range_audited:
-            for file in os.listdir(r'\\storenext.lan\app\EDI_USA\BLM\sandro\SAV-Arrivee\{0}'.format(folder)):
-                # for file in os.listdir(r'\\storenext.lan\app\EDI_USA\BLM\sandro\SAV-Arrivee\{0}'.format(folder)):
+            for file in os.listdir(r'\\\app\EDI_USA\BLM\sandro\SAV-Arrivee\{0}'.format(folder)):
+                # for file in os.listdir(r'\\\app\EDI_USA\BLM\sandro\SAV-Arrivee\{0}'.format(folder)):
                     if file.startswith('AUDITED') and file not in df_audited_sandro['file']:
-                        my_file = pd.read_csv(r'\\storenext.lan\app\EDI_USA\BLM\sandro\SAV-Arrivee\{0}\{1}'.format(folder,file))
+                        my_file = pd.read_csv(r'\\\app\EDI_USA\BLM\sandro\SAV-Arrivee\{0}\{1}'.format(folder,file))
                         my_file['sum'] = my_file['MERCH_AMT']*my_file['QTY']
                         my_file = my_file[my_file['UPC'] > 3607170000000]
                         my_file = my_file[my_file['UPC'] < 3607180000000]
-                        # print(r'\\storenext.lan\app\EDI_USA\BLM\sandro\SAV-Arrivee\{0}\{1}'.format(folder,file))
+                        # print(r'\\\app\EDI_USA\BLM\sandro\SAV-Arrivee\{0}\{1}'.format(folder,file))
                         df_audited_sandro = df_audited_sandro.append({'date':(datetime.strptime(folder,'%d%m%Y')-timedelta(days=4)),
                                                           'totalAmount':sum(my_file['sum'].astype('int')),#MERCH_AMT
-                                                          'filePath':r'\\storenext.lan\app\EDI_USA\BLM\sandro\SAV-Arrivee\{0}\{1}'.format(folder,file),
+                                                          'filePath':r'\\\app\EDI_USA\BLM\sandro\SAV-Arrivee\{0}\{1}'.format(folder,file),
                                                           'file':file},
                                                          ignore_index=True)
     
@@ -921,20 +921,20 @@ def all850s(task):
         path_list = list(set(df['path']))
         
         increment = 0
-        for folder in os.listdir(r"\\storenext.lan\app\EDI_USA\DROPSHIP\SAKS\{brand}\SAV-Arrivee".format(brand = brand)):   
+        for folder in os.listdir(r"\\\app\EDI_USA\DROPSHIP\SAKS\{brand}\SAV-Arrivee".format(brand = brand)):   
             if datetime.strptime(folder, "%d%m%Y") > datetime.today() - timedelta(days=7):
-                for file in os.listdir(r"\\storenext.lan\app\EDI_USA\DROPSHIP\SAKS\{brand}\SAV-Arrivee\{folder}".format(brand = brand,folder=folder)):
+                for file in os.listdir(r"\\\app\EDI_USA\DROPSHIP\SAKS\{brand}\SAV-Arrivee\{folder}".format(brand = brand,folder=folder)):
                     increment +=1
                     if increment % 10000 == 0:
                         print(increment)
-                    if file.startswith('850_') and r"\\storenext.lan\app\EDI_USA\DROPSHIP\SAKS\{brand}\SAV-Arrivee\{folder}\{file}".format(brand=brand,folder=folder,file=file) not in path_list: #list(set(df['Path'])):
-                        # print(r"Opening \\storenext.lan\app\EDI_USA\DROPSHIP\SAKS\{brand}\SAV-Arrivee\{folder}\{file}".format(brand=brand,folder=folder,file=file))
+                    if file.startswith('850_') and r"\\\app\EDI_USA\DROPSHIP\SAKS\{brand}\SAV-Arrivee\{folder}\{file}".format(brand=brand,folder=folder,file=file) not in path_list: #list(set(df['Path'])):
+                        # print(r"Opening \\\app\EDI_USA\DROPSHIP\SAKS\{brand}\SAV-Arrivee\{folder}\{file}".format(brand=brand,folder=folder,file=file))
                         list_of_SKUs = []
-                        for line in open(r"\\storenext.lan\app\EDI_USA\DROPSHIP\SAKS\{brand}\SAV-Arrivee\{folder}\{file}".format(brand=brand,folder=folder,file=file)).readlines():
+                        for line in open(r"\\\app\EDI_USA\DROPSHIP\SAKS\{brand}\SAV-Arrivee\{folder}\{file}".format(brand=brand,folder=folder,file=file)).readlines():
                             if line.startswith('DETAILS'):
                                 list_of_SKUs.append(line.split('|')[5])
                 
-                        df = df.append({'path':r"\\storenext.lan\app\EDI_USA\DROPSHIP\SAKS\{brand}\SAV-Arrivee\{folder}\{file}".format(brand=brand,folder=folder,file=file),
+                        df = df.append({'path':r"\\\app\EDI_USA\DROPSHIP\SAKS\{brand}\SAV-Arrivee\{folder}\{file}".format(brand=brand,folder=folder,file=file),
                                                 'SKU':list_of_SKUs},ignore_index=True)
                     # sys.exit('')
         
@@ -1161,7 +1161,7 @@ def all850s(task):
     for brand in ['Maje','Sandro']:
         if str(datetime.today().strftime('%m%d%y')) in os.listdir(r'C:\Users\dbouvier\Documents\output file\{brand}'.format(brand=brand)):
           for file in os.listdir(r'C:\Users\dbouvier\Documents\output file\{brand}\{date}'.format(brand=brand, date = datetime.today().strftime('%m%d%y'))):
-              shutil.copyfile(r'C:\Users\dbouvier\Documents\output file\{brand}\{date}\{file}'.format(brand=brand, date = datetime.today().strftime('%m%d%y'), file=file), r'\\storenext.lan\app\EDI_USA\DROPSHIP\SAKS\{brand}\Arrivee\{file}'.format(brand=brand,file=file))
+              shutil.copyfile(r'C:\Users\dbouvier\Documents\output file\{brand}\{date}\{file}'.format(brand=brand, date = datetime.today().strftime('%m%d%y'), file=file), r'\\\app\EDI_USA\DROPSHIP\SAKS\{brand}\Arrivee\{file}'.format(brand=brand,file=file))
     
     to_compare = orders_resent_summary.copy()
     orders_resent_summary = pd.DataFrame(columns = ['orderNumber','SKUs'])#,'SKUs'])
@@ -1234,25 +1234,25 @@ def all945s(task):
         # print(r'{path}\{folder_2}_945_mapping.xlsx'.format(path = path, folder_2=folder_2))
         df = pd.read_excel(r'{path}\{folder_2}_945_mapping.xlsx'.format(path = path, folder_2=folder_2), engine = 'openpyxl')
         increment = 0
-        for folder in os.listdir(r"\\storenext.lan\app\PANALPINA\{brand}\SAV-ARRIVEE".format(brand=brand.upper())): 
+        for folder in os.listdir(r"\\\app\PANALPINA\{brand}\SAV-ARRIVEE".format(brand=brand.upper())): 
             if folder != "ECOM" and datetime.strptime(folder, "%d%m%Y") > datetime.today() - timedelta(days=14):
                 # print(folder)
-                for file in os.listdir(r"\\storenext.lan\app\PANALPINA\{brand}\SAV-ARRIVEE\{folder}".format(brand=brand,folder=folder)):
+                for file in os.listdir(r"\\\app\PANALPINA\{brand}\SAV-ARRIVEE\{folder}".format(brand=brand,folder=folder)):
                     increment +=1
                     # if increment % 10000 == 0:
                         # print(increment)
-                    if file.startswith('SMCP') and '945_RET' in file and r"\\storenext.lan\app\PANALPINA\{brand}\SAV-ARRIVEE\{folder}\{file}".format(brand=brand.upper(),folder=folder,file=file) not in list(df['path'].astype(str)):
-                        # paths_list.append(r"\\storenext.lan\app\PANALPINA\MAJE\SAV-ARRIVEE\{0}\{1}".format(folder,file))
-                        # print(r"\\storenext.lan\app\PANALPINA\{brand}\SAV-ARRIVEE\{folder}\{file}".format(brand=brand.upper(),folder=folder,file=file))
+                    if file.startswith('SMCP') and '945_RET' in file and r"\\\app\PANALPINA\{brand}\SAV-ARRIVEE\{folder}\{file}".format(brand=brand.upper(),folder=folder,file=file) not in list(df['path'].astype(str)):
+                        # paths_list.append(r"\\\app\PANALPINA\MAJE\SAV-ARRIVEE\{0}\{1}".format(folder,file))
+                        # print(r"\\\app\PANALPINA\{brand}\SAV-ARRIVEE\{folder}\{file}".format(brand=brand.upper(),folder=folder,file=file))
                         try:
-                            for a in open(r"\\storenext.lan\app\PANALPINA\{brand}\SAV-ARRIVEE\{folder}\{file}".format(brand=brand.upper(),folder=folder,file=file)).readlines():
+                            for a in open(r"\\\app\PANALPINA\{brand}\SAV-ARRIVEE\{folder}\{file}".format(brand=brand.upper(),folder=folder,file=file)).readlines():
                                 if a.startswith('SMCP945H2') and a[find_str(a, '{brand}-'.format(brand=brand.upper()[:4])):find_str(a, '{brand}-'.format(brand=brand.upper())[:4])+12] not in list(df["PT"]):
                                     # print('{brand}-'.format(brand=brand.upper()[:4]))
                                     df = df.append({'PT':a[find_str(a, '{brand}-'.format(brand=brand.upper()[:4])):find_str(a, '{brand}-'.format(brand=brand.upper()[:4]))+12]
-                                                    ,'path':r"\\storenext.lan\app\PANALPINA\{brand}\SAV-ARRIVEE\{folder}\{file}".format(brand=brand.upper(),folder=folder,file=file)}
+                                                    ,'path':r"\\\app\PANALPINA\{brand}\SAV-ARRIVEE\{folder}\{file}".format(brand=brand.upper(),folder=folder,file=file)}
                                                     ,ignore_index=True)
                         except UnicodeDecodeError:
-                            print(r"\\storenext.lan\app\PANALPINA\{brand}\SAV-ARRIVEE\{folder}\{file} IS IN ERROR".format(brand=brand.upper(),folder=folder,file=file))
+                            print(r"\\\app\PANALPINA\{brand}\SAV-ARRIVEE\{folder}\{file} IS IN ERROR".format(brand=brand.upper(),folder=folder,file=file))
                 
                
         writer = pd.ExcelWriter(r'{path}\{folder_2}_945_mapping.xlsx'.format(path=path,folder_2=folder_2))
@@ -1266,19 +1266,19 @@ def all945s(task):
         PTs_lines_discrepency = []
         path_list = list(set(df['Path']))
         
-        for folder in os.listdir(r"\\storenext.lan\app\PANALPINA\{brand}\SAV-ARRIVEE".format(brand=brand.upper())):   
+        for folder in os.listdir(r"\\\app\PANALPINA\{brand}\SAV-ARRIVEE".format(brand=brand.upper())):   
             if folder != "ECOM" and datetime.strptime(folder, "%d%m%Y") > datetime.today() - timedelta(days=7):
                 # print(folder)
-                for file in os.listdir(r"\\storenext.lan\app\PANALPINA\{brand}\SAV-ARRIVEE\{folder}".format(brand=brand,folder=folder)):
-                    if file.startswith('SMCP') and '945_DROP' in file and r"\\storenext.lan\app\PANALPINA\{brand}\SAV-ARRIVEE\{folder}\{file}".format(brand=brand,folder=folder,file=file) not in path_list: #list(set(df['Path'])):
+                for file in os.listdir(r"\\\app\PANALPINA\{brand}\SAV-ARRIVEE\{folder}".format(brand=brand,folder=folder)):
+                    if file.startswith('SMCP') and '945_DROP' in file and r"\\\app\PANALPINA\{brand}\SAV-ARRIVEE\{folder}\{file}".format(brand=brand,folder=folder,file=file) not in path_list: #list(set(df['Path'])):
                         path_dictionnary,d_dictionnary,d_dictionnary,h2_dictionnary,h1_dictionnary,h1_map,h2_map = {},{},{},{},{},{},{}
-                        # print(r"Opening \\storenext.lan\app\PANALPINA\{brand}\SAV-ARRIVEE\{folder}\{file}".format(brand=brand,folder=folder,file=file))           
-                        for line in open(r"\\storenext.lan\app\PANALPINA\{brand}\SAV-ARRIVEE\{folder}\{file}".format(brand=brand,folder=folder,file=file)):
+                        # print(r"Opening \\\app\PANALPINA\{brand}\SAV-ARRIVEE\{folder}\{file}".format(brand=brand,folder=folder,file=file))           
+                        for line in open(r"\\\app\PANALPINA\{brand}\SAV-ARRIVEE\{folder}\{file}".format(brand=brand,folder=folder,file=file)):
                         
                             if line.split('|')[0] == 'SMCP945D':
                                 if line.split('|')[-1].strip() not in list(d_dictionnary.keys()):
                                     d_dictionnary[line.split('|')[-1].strip()] = [line.split('|')[4]]#[:-2]]
-                                    path_dictionnary[line.split('|')[-1].strip()] = r"\\storenext.lan\app\PANALPINA\{brand}\SAV-ARRIVEE\{folder}\{file}".format(brand=brand,folder=folder,file=file)
+                                    path_dictionnary[line.split('|')[-1].strip()] = r"\\\app\PANALPINA\{brand}\SAV-ARRIVEE\{folder}\{file}".format(brand=brand,folder=folder,file=file)
                                 else:
                                     if line.split('|')[4] not in d_dictionnary[line.split('|')[-1].strip()]:
                                         d_dictionnary[line.split('|')[-1].strip()].append(line.split('|')[4])
@@ -1315,7 +1315,7 @@ def all945s(task):
                                                     'Path':path_dictionnary[pt]}, ignore_index=True)
                                 except KeyError:
                                     PTs_lines_discrepency.append(pt)
-                                    print(f"PT in error - {0} from the following path: \\storenext.lan\app\PANALPINA\{brand}\SAV-ARRIVEE\{folder}\{file}".format(brand=brand,folder=folder,file=file))
+                                    print(f"PT in error - {0} from the following path: \\\app\PANALPINA\{brand}\SAV-ARRIVEE\{folder}\{file}".format(brand=brand,folder=folder,file=file))
                     except NameError:
                         pass
         writer = pd.ExcelWriter(r'{0}\945_mapping_lines.xlsx'.format(path))
@@ -1424,10 +1424,10 @@ def allEcom(task):
         df = pd.read_excel("{path}\{brand}_DMW_orders_mapping.xlsx".format(path=path,brand=brand), engine = 'openpyxl')
         paths_list = list(set(df['filePath']))
         
-        for folder_or_file in os.listdir(r"\\storenext.lan\app\DMW\{brand}\SAV-Depart".format(brand=brand)):
-            if folder_or_file.startswith('USSentOrders') and r"\\storenext.lan\app\DMW\{brand}\SAV-Depart\{folder_or_file}".format(brand=brand,folder_or_file=folder_or_file) not in paths_list:
-                paths_list.append(r"\\storenext.lan\app\DMW\{brand}\SAV-Depart\{folder_or_file}".format(brand=brand,folder_or_file=folder_or_file))
-                root = ET.parse(r"\\storenext.lan\app\DMW\{brand}\SAV-Depart\{folder_or_file}".format(brand=brand,folder_or_file=folder_or_file)).getroot();
+        for folder_or_file in os.listdir(r"\\\app\DMW\{brand}\SAV-Depart".format(brand=brand)):
+            if folder_or_file.startswith('USSentOrders') and r"\\\app\DMW\{brand}\SAV-Depart\{folder_or_file}".format(brand=brand,folder_or_file=folder_or_file) not in paths_list:
+                paths_list.append(r"\\\app\DMW\{brand}\SAV-Depart\{folder_or_file}".format(brand=brand,folder_or_file=folder_or_file))
+                root = ET.parse(r"\\\app\DMW\{brand}\SAV-Depart\{folder_or_file}".format(brand=brand,folder_or_file=folder_or_file)).getroot();
                 for returnnode in root.findall(".//order"):
                     for orderNumFile in returnnode.findall(".//orderNumber"):
                         # if orderNumFile.text not in list(df['orderNumber']):
@@ -1435,15 +1435,15 @@ def allEcom(task):
                             # print(orderNumFile.text)
                             # print(type(orderNumFile.text))
                             df = df.append({'orderNumber':orderNumFile.text
-                                            ,'filePath':r"\\storenext.lan\app\DMW\{brand}\SAV-Depart\{folder_or_file}".format(brand=brand,folder_or_file=folder_or_file)
+                                            ,'filePath':r"\\\app\DMW\{brand}\SAV-Depart\{folder_or_file}".format(brand=brand,folder_or_file=folder_or_file)
                                             ,'xmlStr':ET.tostring(returnnode, encoding='utf-8').decode('utf-8')},ignore_index=True)
             
             elif re.match(r"[0-9]+", folder_or_file) and len(folder_or_file) == 8:
                 # print(folder_or_file)
-                for file in os.listdir(r"\\storenext.lan\app\DMW\{brand}\SAV-Depart\{folder_or_file}".format(brand=brand,folder_or_file=folder_or_file)):
-                    if file.startswith('USSentOrders') and r"\\storenext.lan\app\DMW\{brand}\SAV-Depart\{folder_or_file}\{file}".format(brand=brand,folder_or_file=folder_or_file,file=file) not in paths_list:
-                        paths_list.append(r"\\storenext.lan\app\DMW\{brand}\SAV-Depart\{folder_or_file}\{file}".format(brand=brand,folder_or_file=folder_or_file,file=file))
-                        root = ET.parse(r"\\storenext.lan\app\DMW\{brand}\SAV-Depart\{folder_or_file}\{file}".format(brand=brand,folder_or_file=folder_or_file,file=file)).getroot()
+                for file in os.listdir(r"\\\app\DMW\{brand}\SAV-Depart\{folder_or_file}".format(brand=brand,folder_or_file=folder_or_file)):
+                    if file.startswith('USSentOrders') and r"\\\app\DMW\{brand}\SAV-Depart\{folder_or_file}\{file}".format(brand=brand,folder_or_file=folder_or_file,file=file) not in paths_list:
+                        paths_list.append(r"\\\app\DMW\{brand}\SAV-Depart\{folder_or_file}\{file}".format(brand=brand,folder_or_file=folder_or_file,file=file))
+                        root = ET.parse(r"\\\app\DMW\{brand}\SAV-Depart\{folder_or_file}\{file}".format(brand=brand,folder_or_file=folder_or_file,file=file)).getroot()
                         for returnnode in root.findall(".//order"):
                             for orderNumFile in returnnode.findall(".//orderNumber"):
                                 # if orderNumFile.text not in list(df['orderNumber']):
@@ -1451,7 +1451,7 @@ def allEcom(task):
                                     # print(orderNumFile.text)
                                     # print(type(orderNumFile.text))
                                     df = df.append({'orderNumber':orderNumFile.text
-                                                    ,'filePath':r"\\storenext.lan\app\DMW\{brand}\SAV-Depart\{folder_or_file}\{file}".format(brand=brand,folder_or_file=folder_or_file,file=file)
+                                                    ,'filePath':r"\\\app\DMW\{brand}\SAV-Depart\{folder_or_file}\{file}".format(brand=brand,folder_or_file=folder_or_file,file=file)
                                                     ,'xmlStr':ET.tostring(returnnode, encoding='utf-8').decode('utf-8')},ignore_index=True)
         writer = pd.ExcelWriter(r'{path}\{brand}_DMW_orders_mapping.xlsx'.format(path=path,brand=brand))
         df.to_excel(writer, "{brand}_DMW_orders_mapping".format(brand=brand),index=False)    
@@ -1468,12 +1468,12 @@ def allEcom(task):
         for string in paths_list:
             paths_list_new.append(string[find_str(string,'USTicket_'):find_str(string,'.xml')+4])
         
-        for folder_or_file in os.listdir(r"\\storenext.lan\app\DMW\{brand}\SAV-Arrivee".format(brand=brand)):
+        for folder_or_file in os.listdir(r"\\\app\DMW\{brand}\SAV-Arrivee".format(brand=brand)):
             if folder_or_file.startswith('USTicket') and folder_or_file[find_str(folder_or_file,'USTicket_'):find_str(folder_or_file,'.xml')+4] not in paths_list_new:
-                # print(r"\\storenext.lan\app\DMW\MAJE\SAV-Arrivee\{0}".format(folder_or_file))
-                root =  open(r"\\storenext.lan\app\DMW\{brand}\SAV-Arrivee\{folder_or_file}".format(brand=brand,folder_or_file=folder_or_file), "r").read()
+                # print(r"\\\app\DMW\MAJE\SAV-Arrivee\{0}".format(folder_or_file))
+                root =  open(r"\\\app\DMW\{brand}\SAV-Arrivee\{folder_or_file}".format(brand=brand,folder_or_file=folder_or_file), "r").read()
                 doc_file = etree.fromstring(root, parser=parser)
-                paths_list.append(r"\\storenext.lan\app\DMW\{brand}\SAV-Arrivee\{folder_or_file}".format(brand=brand,folder_or_file=folder_or_file))
+                paths_list.append(r"\\\app\DMW\{brand}\SAV-Arrivee\{folder_or_file}".format(brand=brand,folder_or_file=folder_or_file))
                 for returnnode in doc_file.findall(".//Ticket"):
                     try:
                         orderNumber = returnnode.find(".//Paiement/NoDePieceIdentite").text
@@ -1483,18 +1483,18 @@ def allEcom(task):
                         # print(returnnode.find(".//NoTicket").text)
                         df = df.append({'NoTicket':returnnode.find(".//NoTicket").text
                                         ,'orderNumber':orderNumber
-                                        ,'filePath':r"\\storenext.lan\app\DMW\{brand}\SAV-Arrivee\{folder_or_file}".format(brand=brand,folder_or_file=folder_or_file)
+                                        ,'filePath':r"\\\app\DMW\{brand}\SAV-Arrivee\{folder_or_file}".format(brand=brand,folder_or_file=folder_or_file)
                                         ,'xmlStr':etree.tostring(returnnode, encoding='UTF-8').decode('utf-8')},ignore_index=True)
         
                    
                             
             elif re.match(r"[0-9]+", folder_or_file) and len(folder_or_file) == 8:
-                for file in os.listdir(r"\\storenext.lan\app\DMW\{brand}\SAV-Arrivee\{folder_or_file}".format(brand=brand,folder_or_file=folder_or_file)):
+                for file in os.listdir(r"\\\app\DMW\{brand}\SAV-Arrivee\{folder_or_file}".format(brand=brand,folder_or_file=folder_or_file)):
                     if file.startswith('USTicket') and file[find_str(file,'USTicket_'):find_str(file,'.xml')+4] not in paths_list_new:
-                        # print(r"\\storenext.lan\app\DMW\{brand}\SAV-Arrivee\{folder_or_file}\{file}".format(brand=brand,folder_or_file=folder_or_file,file=file))
-                        root =  open(r"\\storenext.lan\app\DMW\{brand}\SAV-Arrivee\{folder_or_file}\{file}".format(brand=brand,folder_or_file=folder_or_file,file=file), "r").read()
+                        # print(r"\\\app\DMW\{brand}\SAV-Arrivee\{folder_or_file}\{file}".format(brand=brand,folder_or_file=folder_or_file,file=file))
+                        root =  open(r"\\\app\DMW\{brand}\SAV-Arrivee\{folder_or_file}\{file}".format(brand=brand,folder_or_file=folder_or_file,file=file), "r").read()
                         doc_file = etree.fromstring(root, parser=parser)
-                        paths_list.append(r"\\storenext.lan\app\DMW\{brand}\SAV-Arrivee\{folder_or_file}\{file}".format(brand=brand,folder_or_file=folder_or_file,file=file))
+                        paths_list.append(r"\\\app\DMW\{brand}\SAV-Arrivee\{folder_or_file}\{file}".format(brand=brand,folder_or_file=folder_or_file,file=file))
                         for returnnode in doc_file.findall(".//Ticket"):
                             for orderNumFile in returnnode.findall(".//NoTicket"):
                                 try:
@@ -1505,7 +1505,7 @@ def allEcom(task):
                                     # print(returnnode.find(".//NoTicket").text)
                                     df = df.append({'NoTicket':returnnode.find(".//NoTicket").text
                                         ,'orderNumber':orderNumber
-                                        ,'filePath':r"\\storenext.lan\app\DMW\{brand}\SAV-Arrivee\{folder_or_file}\{file}".format(brand=brand,folder_or_file=folder_or_file,file=file)
+                                        ,'filePath':r"\\\app\DMW\{brand}\SAV-Arrivee\{folder_or_file}\{file}".format(brand=brand,folder_or_file=folder_or_file,file=file)
                                         ,'xmlStr':etree.tostring(returnnode, encoding='UTF-8').decode('utf-8')},ignore_index=True)
         writer = pd.ExcelWriter(r'C:\Users\dbouvier\OneDrive - SMCP\11 - IT - Operations\02 - Applications Operations\Mapping Tables\Demandware\{brandUpper}\arrivee\{brand}_DMW_tickets_mapping.xlsx'.format(brandUpper=brand.upper(),brand=brand))
         df.to_excel(writer, "{brand}_DMW_tickets_mapping",index=False)    
