@@ -198,8 +198,8 @@ writer.save()
 
 outlook = win32.Dispatch('outlook.application')
 mail = outlook.CreateItem(0)
-mail.To = 'DL_US_IT_DEPARTMENT@SMCP.COM'
-#mail.CC = 'US_DL_US_WH_Support@SMCP.COM'
+mail.To = 
+#mail.CC =
 mail.Subject = 'Pending Tickets Tracker for Week {0} Available'.format(datetime.today().strftime('%m%d'))
 mail.HtmlBody = """Hi Team,<br><br>
  
