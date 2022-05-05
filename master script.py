@@ -130,8 +130,8 @@ def wunderkind(task):
     if len(maje_files_went_over) >0 or len(sandro_files_went_over)>0:
         outlook = win32.Dispatch('outlook.application',pythoncom.CoInitialize())
         mail = outlook.CreateItem(0)
-        mail.To = 'Kathryn.SLYFIELD@smcp.com;Rudy.RIBARDIERE@smcp.com;megan.thayer@smcp.com'
-        mail.CC = 'us_dl_usappsup@smcp.com'
+        mail.To = 
+        mail.CC = 
         mail.Subject = 'Daily SMCP Wunderkind Client Import Process'
         mail.HtmlBody = """***Automated Email***
         <br><br>Hi Team,<br><br>
@@ -143,10 +143,8 @@ def wunderkind(task):
         <br>IT Systems Analyst, North America
              
         <br><br>Sandro • Maje • Claudie Pierlot • De Fursac
-        <br>44 Wall Street, 12th Floor
+        <br>44 Wall Street
         <br>New York, NY 10005
-        <br>dimitri.bouvier@smcp.com
-        <br>Mobile:  973-979-8501
         """
             
         mail.Display(False)
@@ -196,8 +194,8 @@ def transferFileChecker(task):
     
     outlook = win32.Dispatch('outlook.application',pythoncom.CoInitialize())
     mail = outlook.CreateItem(0)
-    mail.To = 'DL_US_IT_DEPARTMENT@SMCP.COM'
-    # mail.CC = 'US_DL_USAPPSUP@SMCP.COM'
+    mail.To = 
+    # mail.CC = 
     mail.Subject = 'Automated Daily Mediacontact Folders Check'
     mail.Body = """***Automated Email***
 
@@ -214,10 +212,9 @@ Dimitri Bouvier
 IT Systems Analyst, North America
      
 Sandro • Maje • Claudie Pierlot • De Fursac
-44 Wall Street, 12th Floor
+44 Wall Street
 New York, NY 10005
-dimitri.bouvier@smcp.com
-Mobile:  973-979-8501
+
     """.format(list_of_stores = list(df[df['tooOld?'] == 'yes']['storeNumber']),hours= number_of_hours).replace('[','').replace(']','')
     # mail.Attachments.Add(r'C:/Users/dbouvier/Downloads/SentOrdersWithoutMatch{0}.csv'.format(datetime.today().strftime('%m%d%y')))
     mail.Display(False)
@@ -345,8 +342,8 @@ def blmAudStlComparision(task):
     for brand in ['Sandro','Maje']:
         outlook = win32.Dispatch('outlook.application',pythoncom.CoInitialize())
         mail = outlook.CreateItem(0)
-        mail.To = 'Bernabe.GOMEZ@smcp.com'
-        mail.CC = 'DL_US_IT_DEPARTMENT@SMCP.COM'
+        mail.To =
+        mail.CC = 
         mail.Subject = '{brand} BLM Audited Sales Files VS Storeland Comparison Last 45 Trailing Days'.format(brand = brand.upper())
         mail.HtmlBody = """***Automated Email***<br><br>
         Hi Team,<br><br>
@@ -359,10 +356,8 @@ def blmAudStlComparision(task):
         IT Systems Analyst, North America
         <br><br>
         Sandro • Maje • Claudie Pierlot • De Fursac<br>
-        44 Wall Street, 12th Floor<br>
+        44 Wall Street<br>
         New York, NY 10005<br>
-        dimitri.bouvier@smcp.com<br>
-        Mobile:  973.979.8501
         """.format(brand=brand,table=open(r'C:\Users\dbouvier\Downloads\{brand}AUDSTL.html'.format(brand=brand)).read())
         mail.Display(False)
     global df_tasks
@@ -487,8 +482,8 @@ def blmAudDaiComparison(task):
                             ,na_rep='')
         outlook = win32.Dispatch('outlook.application',pythoncom.CoInitialize())
         mail = outlook.CreateItem(0)
-        mail.To = 'Bernabe.GOMEZ@smcp.com'
-        mail.CC = 'DL_US_IT_DEPARTMENT@SMCP.COM'
+        mail.To = 
+        mail.CC = 
         mail.Subject = 'MAJE BLM Audited Sales Files VS Daily Sales Files Last {0} Trailing Days'.format(trailing_days)
         mail.HtmlBody = """***Automated Email***<br><br>
         Hi Team,<br><br>
@@ -502,10 +497,8 @@ def blmAudDaiComparison(task):
         IT Systems Analyst, North America
         <br><br>
         Sandro • Maje • Claudie Pierlot • De Fursac<br>
-        44 Wall Street, 12th Floor<br>
+        44 Wall Street<br>
         New York, NY 10005<br>
-        dimitri.bouvier@smcp.com<br>
-        Mobile:  973.979.8501
         """.format(number_of_days_issue = len(maje_export),trailing = trailing_days,percent_criterion=percent_thresold,html_table=open(r'C:\Users\dbouvier\Downloads\MajeAUDDAY.html').read())
         mail.Display(False)
     
@@ -516,8 +509,8 @@ def blmAudDaiComparison(task):
                             ,na_rep='')
         outlook = win32.Dispatch('outlook.application',pythoncom.CoInitialize())
         mail = outlook.CreateItem(0)
-        mail.To = 'Bernabe.GOMEZ@smcp.com'
-        mail.CC = 'DL_US_IT_DEPARTMENT@SMCP.COM'
+        mail.To = 
+        mail.CC = 
         mail.Subject = 'SANDRO BLM Audited Sales Files VS Daily Sales Files Last {0} Trailing Days'.format(trailing_days)
         mail.HtmlBody = """***Automated Email***<br><br>
         Hi Team,<br><br>
@@ -531,10 +524,8 @@ def blmAudDaiComparison(task):
         IT Systems Analyst, North America
         <br><br>
         Sandro • Maje • Claudie Pierlot • De Fursac<br>
-        44 Wall Street, 12th Floor<br>
+        44 Wall Street<br>
         New York, NY 10005<br>
-        dimitri.bouvier@smcp.com<br>
-        Mobile:  973.979.8501
         """.format(number_of_days_issue = len(sandro_export),trailing = trailing_days,percent_criterion=percent_thresold,html_table=open(r'C:\Users\dbouvier\Downloads\SandroAUDDAY.html').read())
         mail.Display(False)
         
@@ -730,8 +721,8 @@ def backUpMagCheck(task):
     
     outlook = win32.Dispatch('outlook.application',pythoncom.CoInitialize())
     mail = outlook.CreateItem(0)
-    mail.To = 'DL_US_IT_DEPARTMENT@SMCP.COM'
-    # mail.CC = 'US_DL_USAPPSUP@SMCP.COM'
+    mail.To = 
+    # mail.CC = 
     mail.Subject = 'Automated Daily Winstore Backups Report'
     mail.HtmlBody = """***Automated Email***<br><br>
     
@@ -749,10 +740,8 @@ def backUpMagCheck(task):
     IT Systems Analyst, North America<br><br>
      
     Sandro • Maje • Claudie Pierlot • De Fursac<br>
-    44 Wall Street, 12th Floor<br>
+    44 Wall Street<br>
     New York, NY 10005<br>
-    dimitri.bouvier@smcp.com<br>
-    Mobile:  973-979-8501<br>
     """.format(KPI = (open(r'C:\Users\dbouvier\Downloads\bckpMagReportKPIs.html').read()),report = (open(r'C:\Users\dbouvier\Downloads\bckpMagReport.html').read()))
     # """.format(list_of_stores = list(df_store_recap[df_store_recap['tooOld?'] == 'yes']['store']),hours= number_of_hours,list_of_no_backups= list(df_store_recap[df_store_recap['tooOld?'] == 'no backup']['store'])).replace('[','').replace(']','').replace("'",'')
     # mail.Attachments.Add(r'C:/Users/dbouvier/Downloads/SentOrdersWithoutMatch{0}.csv'.format(datetime.today().strftime('%m%d%y')))
@@ -898,8 +887,8 @@ def dailyChecklistCheck(task):
     writer.save()
     outlook = win32.Dispatch('outlook.application',pythoncom.CoInitialize())
     mail = outlook.CreateItem(0)
-    mail.To = 'Bolin.HONG@smcp.com'
-    mail.CC = 'US_DL_USAPPSUP@SMCP.COM'#LAFAUCI@smcp.com
+    mail.To =
+    mail.CC = 
     mail.Subject = 'Automated Daily Checklist Queries Report Generation'
     mail.HtmlBody = """***Automated Email***<br><br>
     
@@ -915,10 +904,8 @@ def dailyChecklistCheck(task):
     IT Systems Analyst, North America<br><br>
          
     Sandro • Maje • Claudie Pierlot • De Fursac<br>
-    44 Wall Street, 12th Floor<br>
+    44 Wall Street<br>
     New York, NY 10005<br>
-    dimitri.bouvier@smcp.com<br>
-    Mobile:  973-979-8501<br>
     """.format(report = open(r'{folder_path}\outcomes.html'.format(folder_path=folder_path)).read())
     mail.Attachments.Add(r'{folder_path}\Daily Queries Results {today}.xlsx'.format(folder_path=folder_path, today= datetime.today().strftime("%m-%d-%Y")))
     mail.Display(False)
@@ -1214,8 +1201,8 @@ def all850s(task):
     if len(orders_resent_summary) >0:
         outlook = win32.Dispatch('outlook.application',pythoncom.CoInitialize())
         mail = outlook.CreateItem(0)
-        mail.To = 'US_DL_USAPPSUP@SMCP.COM'
-        mail.CC = 'Joanna.RODRIGUEZ@smcp.com'
+        mail.To = 
+        mail.CC = 
         mail.Subject = 'Automated re-integration of 850 files'
         mail.Body = """***Automated Email***
         
@@ -1230,10 +1217,9 @@ Dimitri Bouvier
 IT Systems Analyst, North America
      
 Sandro • Maje • Claudie Pierlot • De Fursac
-44 Wall Street, 12th Floor
+44 Wall Street
 New York, NY 10005
-dimitri.bouvier@smcp.com
-Mobile:  973-979-8501""".format(len(orders_resent_summary),tabulate(orders_resent_summary, headers = ['orderNumber','SKUs'],  tablefmt='psql'))
+""".format(len(orders_resent_summary),tabulate(orders_resent_summary, headers = ['orderNumber','SKUs'],  tablefmt='psql'))
         mail.Display(False)    
 
     print(f'end of {task}')
@@ -1569,8 +1555,8 @@ df_tasks.sort_values(by=['task'],ascending=True).to_html(r'{folder_path}\DailyTa
 
 outlook = win32.Dispatch('outlook.application')
 mail = outlook.CreateItem(0)
-mail.To = 'Bolin.HONG@smcp.com;Greg.LAFAUCI@smcp.com;Dimitri.BOUVIER@smcp.com'
-# mail.CC = 'US_DL_USAPPSUP@SMCP.COM'#LAFAUCI@smcp.com
+mail.To = 
+# mail.CC = 
 mail.Subject = 'Daily automated tasks report IS Team'
 mail.HtmlBody = """***Automated Email***<br><br>
 
@@ -1585,10 +1571,8 @@ Dimitri Bouvier<br>
 IT Systems Analyst, North America<br><br>
      
 Sandro • Maje • Claudie Pierlot • De Fursac<br>
-44 Wall Street, 12th Floor<br>
+44 Wall Street<br>
 New York, NY 10005<br>
-dimitri.bouvier@smcp.com<br>
-Mobile:  973-979-8501
 """.format(report = open(r'{folder_path}\DailyTasksStatus.html'.format(folder_path=r'C:\Users\dbouvier\Downloads')).read())
 # mail.Attachments.Add(r'C:/Users/dbouvier/Downloads/SentOrdersWithoutMatch{0}.csv'.format(datetime.today().strftime('%m%d%y')))
 mail.Display(False)
