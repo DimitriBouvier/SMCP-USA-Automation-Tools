@@ -213,12 +213,7 @@ The pending tickets tracker for this current week is live on the following Share
 
 <br><br>Best,
 <br>Dimitri Bouvier
-<br>IT Application Support, North America
-     
-<br><br>Sandro • Maje • Claudie Pierlot • De Fursac
-<br>44 Wall Street, 12th Floor
-<br>New York, NY 10005
-<br>dimitri.bouvier@smcp.com
-<br>Mobile:  973-979-8501
+<br>IS Systems Analyst, North America
+
 """ 
 mail.Display(False)
