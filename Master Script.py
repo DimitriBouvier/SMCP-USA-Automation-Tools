@@ -28,12 +28,12 @@ pd.options.mode.chained_assignment = None  # default='warn'
 
 loc = r"C:\Oracle\instantclient_21_3"
 
-dsn_tns_sandro = '(DESCRIPTION =(ADDRESS_LIST =(ADDRESS = (PROTOCOL = TCP)(HOST = FR-STOR-SANDRO-PROD.STORENEXT.LAN)(PORT = 1521)))(CONNECT_DATA = (SERVICE_NAME = STOR)))'
-dsn_tns_maje = '(DESCRIPTION =(ADDRESS_LIST =(ADDRESS = (PROTOCOL = TCP)(HOST = FR-STOR-MAJE-PROD.STORENEXT.LAN)(PORT = 1521)))(CONNECT_DATA = (SERVICE_NAME = STOR)))'
+dsn_tns_sandro = 
+dsn_tns_maje = 
 
 os.environ["PATH"] = loc + ";" + os.environ["PATH"]
-conn_s = cx_Oracle.connect(user='STORELAND', password='STORELAND', dsn='(DESCRIPTION =(ADDRESS_LIST =(ADDRESS = (PROTOCOL = TCP)(HOST = FR-STOR-SANDRO-PROD.STORENEXT.LAN)(PORT = 1521)))(CONNECT_DATA = (SERVICE_NAME = STOR)))')
-conn_m = cx_Oracle.connect(user='STORELAND', password='STORELAND', dsn='(DESCRIPTION =(ADDRESS_LIST =(ADDRESS = (PROTOCOL = TCP)(HOST = FR-STOR-MAJE-PROD.STORENEXT.LAN)(PORT = 1521)))(CONNECT_DATA = (SERVICE_NAME = STOR)))')
+conn_s = cx_Oracle.connect(user=, password=, dsn=)
+conn_m = cx_Oracle.connect(user=, password=, dsn=)
 
 c_sandro = conn_s.cursor()
 c_maje = conn_m.cursor()
