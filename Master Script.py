@@ -632,8 +632,8 @@ def backUpMagCheck(task):
     
                     
     
-    username = 'CAISSE'
-    password = 'CAISSE'
+    username = 
+    password = 
     use_dict={}
     use_dict['password']=password
     use_dict['username']=username
@@ -756,8 +756,8 @@ def dailyChecklistCheck(task):
     global dsn_tns_sandro
     global dsn_tns_maje
     folder_path = r'C:\Users\dbouvier\Documents\output file'
-    connection_dic = {'maje':cx_Oracle.connect(user='STORELAND', password='STORELAND', dsn=dsn_tns_maje),
-                  'sandro':cx_Oracle.connect(user='STORELAND', password='STORELAND', dsn=dsn_tns_sandro)}
+    connection_dic = {'maje':cx_Oracle.connect(user=, password=, dsn=dsn_tns_maje),
+                  'sandro':cx_Oracle.connect(user=, password=, dsn=dsn_tns_sandro)}
     #--------------------------------------parameters section------------------------------------------------
 
     season_code = ['E22','H22']
